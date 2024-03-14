@@ -8,15 +8,19 @@ import { ProductComponent } from './Product';
 export const ProductsList = () => {
   const { items } = useApp();
 
+  if (items.length > 0) {
+    return (
+      <div className='row g-2'>
+        {items.map((product) => (
+          <ProductComponent key={product.id} {...product} />
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className='row g-2'>
-      {items.length > 0 ? (
-        items.map((product) => <ProductComponent key={product.id} {...product} />)
-      ) : (
-        <Text typography='titleMedium' className='text-center'>
-          Neboli nájdené žiadne produkty
-        </Text>
-      )}
-    </div>
+    <Text typography='titleMedium' className='text-center'>
+      Neboli nájdené žiadne produkty
+    </Text>
   );
 };

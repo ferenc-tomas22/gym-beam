@@ -51,11 +51,7 @@ export const AppProvider: FCC<ProductsData> = ({ children, ...props }) => {
     () =>
       setAppContext((prevState) => {
         void getProductsData(prevState.filterOptions).then((data) => {
-          setAppContext((prev) => ({
-            ...prev,
-            items: data.items,
-            loading: false,
-          }));
+          setAppContext((prev) => ({ ...prev, items: data.items, loading: false }));
         });
 
         return { ...prevState, loading: true };

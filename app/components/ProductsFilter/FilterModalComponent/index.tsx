@@ -1,3 +1,5 @@
+'use client';
+
 import { useApp } from '@/app/context/App';
 import { useModal } from '@/app/context/Modal';
 

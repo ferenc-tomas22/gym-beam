@@ -12,7 +12,7 @@ export const ProductsFilters = () => {
 
   return (
     <>
-      <div className='d-flex align-items-center justify-content-end gap-1 mb-2 mb-md-0'>
+      <div className='d-flex align-items-center justify-content-end gap-1 mb-1'>
         {filterOptions.length > 0 && (
           <button
             className='btn btn-sm btn-light border-secondary-subtle rounded-3 shadow-sm px-4'

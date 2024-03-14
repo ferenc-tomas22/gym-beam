@@ -4,7 +4,6 @@ import styles from './styles.module.css';
 
 type ITextComponent = {
   typography: keyof typeof Typography;
-  style?: React.CSSProperties;
   className?: string;
 };
 
@@ -24,11 +23,8 @@ const Typography = {
   labelSmall400: 'labelSmall400',
 };
 
-export const Text: FCC<ITextComponent> = ({ typography, style, className, children }) => (
-  <p
-    style={style}
-    className={className ? `${styles[typography]} ${className}` : styles[typography]}
-  >
+export const Text: FCC<ITextComponent> = ({ typography, className, children }) => (
+  <p className={className ? `${styles[typography]} ${className}` : styles[typography]}>
     {children}
   </p>
 );

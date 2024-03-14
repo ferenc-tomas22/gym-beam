@@ -1,4 +1,6 @@
-import { API_GET_PRODUCTS_BY_SPORTS_NUTRITION_CATEGORY_URL } from '../constants';
+import { useCallback } from 'react';
+
+import { API_GET_PRODUCTS_URL } from '../constants';
 import { FilterOption } from '../context/App';
 import { useToast } from '../context/Toast';
 import { ProductsData } from '../model';
@@ -7,30 +9,28 @@ type ApiActions = {
   getProductsData: (filterOptions?: FilterOption[]) => Promise<ProductsData>;
 };
 
-const getErrorMessage = (caughtErr: unknown) => {
-  if (caughtErr instanceof Error) {
-    return caughtErr.message;
-  }
-  return String(caughtErr);
-};
+const getErrorMessage = (caughtErr: unknown) =>
+  caughtErr instanceof Error ? caughtErr.message : String(caughtErr);
 
 export const useApiActions = (): ApiActions => {
   const { showToast } = useToast();
 
-  return {
-    getProductsData: async (filterOptions: FilterOption[] = []): Promise<ProductsData> => {
+  const getProductsData = useCallback(
+    async (filterOptions: FilterOption[] = []): Promise<ProductsData> => {
       try {
         const response = await fetch(
           filterOptions.length > 0
-            ? `${API_GET_PRODUCTS_BY_SPORTS_NUTRITION_CATEGORY_URL}?${filterOptions
+            ? `${API_GET_PRODUCTS_URL}&${filterOptions
                 .map(({ filterCode, optionValue }) => `${filterCode}[]=${optionValue}`)
                 .join('&')}`
-            : API_GET_PRODUCTS_BY_SPORTS_NUTRITION_CATEGORY_URL,
+            : API_GET_PRODUCTS_URL,
           {
             cache: 'no-store',
             headers: { 'Content-Type': 'application/json' },
           }
         );
+
+        console.log('response', response);
 
         return await response.json();
       } catch (err) {
@@ -39,5 +39,8 @@ export const useApiActions = (): ApiActions => {
         return { filters: [], items: [] };
       }
     },
-  };
+    [showToast]
+  );
+
+  return { getProductsData };
 };

@@ -49,7 +49,7 @@ export const ToastProvider: FCC = ({ children }) => {
     <ToastContext.Provider value={value}>
       <Toaster
         toastOptions={{
-          duration: 4000,
+          duration: 3000,
           style: { fontFamily: 'Montserrat, Arial, Helvetica, sans-serif' },
         }}
       />
