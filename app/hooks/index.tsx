@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import { API_GET_PRODUCTS_URL } from '../constants';
 import { FilterOption } from '../context/App';
 import { useToast } from '../context/Toast';
@@ -15,30 +13,27 @@ const getErrorMessage = (caughtErr: unknown) =>
 export const useApiActions = (): ApiActions => {
   const { showToast } = useToast();
 
-  const getProductsData = useCallback(
-    async (filterOptions: FilterOption[] = []): Promise<ProductsData> => {
-      try {
-        const response = await fetch(
-          filterOptions.length > 0
-            ? `${API_GET_PRODUCTS_URL}&${filterOptions
-                .map(({ filterCode, optionValue }) => `${filterCode}[]=${optionValue}`)
-                .join('&')}`
-            : API_GET_PRODUCTS_URL,
-          {
-            cache: 'no-store',
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
+  const getProductsData = async (filterOptions: FilterOption[] = []): Promise<ProductsData> => {
+    try {
+      const response = await fetch(
+        filterOptions.length > 0
+          ? `${API_GET_PRODUCTS_URL}&${filterOptions
+              .map(({ filterCode, optionValue }) => `${filterCode}[]=${optionValue}`)
+              .join('&')}`
+          : API_GET_PRODUCTS_URL,
+        {
+          cache: 'no-store',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
 
-        return await response.json();
-      } catch (err) {
-        showToast(getErrorMessage(err), 'error');
+      return await response.json();
+    } catch (err) {
+      showToast(getErrorMessage(err), 'error');
 
-        return { filters: [], items: [] };
-      }
-    },
-    [showToast]
-  );
+      return { filters: [], items: [] };
+    }
+  };
 
   return { getProductsData };
 };
