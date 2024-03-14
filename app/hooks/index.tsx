@@ -30,8 +30,6 @@ export const useApiActions = (): ApiActions => {
           }
         );
 
-        console.log('response', response);
-
         return await response.json();
       } catch (err) {
         showToast(getErrorMessage(err), 'error');
